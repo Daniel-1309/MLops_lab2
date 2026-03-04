@@ -1,0 +1,41 @@
+stages:
+
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/insurance.csv
+    outs:
+      - data/preprocessed_dataset.csv
+
+  split:
+    cmd: python src/split_data.py
+    deps:
+      - src/split_data.py
+      - data/preprocessed_dataset.csv
+    outs:
+      - data/X_train.csv
+      - data/X_test.csv
+      - data/y_train.csv
+      - data/y_test.csv
+
+  train:
+    cmd: python src/train_random_forest.py
+    deps:
+      - src/train_random_forest.py
+      - data/X_train.csv
+      - data/y_train.csv
+    outs:
+      - model/rndm_frst_model.pkl
+
+  validate:
+    cmd: python src/validate.py
+    deps:
+      - src/validate.py
+      - model/rndm_frst_model.pkl
+      - data/X_test.csv
+      - data/y_test.csv
+    metrics:
+      - reports/metrics.json
+    plots:
+      - reports/prediction_plot.png

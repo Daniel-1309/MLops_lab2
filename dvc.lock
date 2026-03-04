@@ -1,0 +1,94 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/insurance.csv
+      hash: md5
+      md5: d5364d06246fb4bfa4cc7d1ee89ebd0d
+      size: 55628
+    - path: src/preprocess.py
+      hash: md5
+      md5: 4ecefd3e0208276043e1f58758eebe77
+      size: 967
+    outs:
+    - path: data/preprocessed_dataset.csv
+      hash: md5
+      md5: d1707522576bb96cb2bd9721cb16039f
+      size: 46091
+  split:
+    cmd: python src/split_data.py
+    deps:
+    - path: data/preprocessed_dataset.csv
+      hash: md5
+      md5: d1707522576bb96cb2bd9721cb16039f
+      size: 46091
+    - path: src/split_data.py
+      hash: md5
+      md5: e0579b4177b89458ffb1f00c71a72155
+      size: 1031
+    outs:
+    - path: data/X_test.csv
+      hash: md5
+      md5: be7fdc9243475f58492ff9d9aa922014
+      size: 6524
+    - path: data/X_train.csv
+      hash: md5
+      md5: e6d87bddb4a95194ad97a27c86adec26
+      size: 25680
+    - path: data/y_test.csv
+      hash: md5
+      md5: 781e806b36b3ae9f86759d7baa7f6218
+      size: 3081
+    - path: data/y_train.csv
+      hash: md5
+      md5: 748779d39a4b139499bb45ac4d3fa7de
+      size: 12250
+  train:
+    cmd: python src/train_random_forest.py
+    deps:
+    - path: data/X_train.csv
+      hash: md5
+      md5: e6d87bddb4a95194ad97a27c86adec26
+      size: 25680
+    - path: data/y_train.csv
+      hash: md5
+      md5: 748779d39a4b139499bb45ac4d3fa7de
+      size: 12250
+    - path: src/train_random_forest.py
+      hash: md5
+      md5: 3ba6141b12dbd008d67385e2e4e8e84a
+      size: 411
+    outs:
+    - path: model/rndm_frst_model.pkl
+      hash: md5
+      md5: bcc696ae1d7f07f01211428fcf03120d
+      size: 9732689
+  validate:
+    cmd: python src/validate.py
+    deps:
+    - path: data/X_test.csv
+      hash: md5
+      md5: be7fdc9243475f58492ff9d9aa922014
+      size: 6524
+    - path: data/y_test.csv
+      hash: md5
+      md5: 781e806b36b3ae9f86759d7baa7f6218
+      size: 3081
+    - path: model/rndm_frst_model.pkl
+      hash: md5
+      md5: bcc696ae1d7f07f01211428fcf03120d
+      size: 9732689
+    - path: src/validate.py
+      hash: md5
+      md5: d38f7daba492c8a4209a10fc1757fdc8
+      size: 878
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: a44591723b3ca4d2ed3ea3b29d95eb33
+      size: 89
+    - path: reports/prediction_plot.png
+      hash: md5
+      md5: 595205f44e09829207037bb3d9a5ad43
+      size: 25183

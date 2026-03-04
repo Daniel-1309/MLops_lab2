@@ -14,13 +14,13 @@ def preprocess_data(file_path):
     df['region_southeast'] = df['region_southeast'].map({True: 1, False: 0})
     df['region_southwest'] = df['region_southwest'].map({True: 1, False: 0})
     df['region_northeast'] = df['region_northeast'].map({True: 1, False: 0})
-    
+
     df['smoker'] = df['smoker'].map({'yes': 1, 'no': 0})
     df['sex'] = df['sex'].map({'male': 1, 'female': 0})
     
     return df
 
 if __name__ == "__main__":
-    file_path = 'data/insurance.csv'  # Update with your dataset path
+    file_path = 'data/insurance.csv'  
     preprocessed_df = preprocess_data(file_path)
-    preprocessed_df.to_csv('data/preprocessed_dataset.csv', index=False)  # Save the preprocessed dataset
+    preprocessed_df.to_csv('data/preprocessed_dataset.csv', index=False)  
